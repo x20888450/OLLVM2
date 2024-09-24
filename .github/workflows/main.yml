@@ -1,0 +1,26 @@
+name: build
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-project:
+    name: Build project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: CMake build for ARM
+        run: chmod +x ./standalone-build.sh && sh standalone-build.sh
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: build
+          retention-days: 30
